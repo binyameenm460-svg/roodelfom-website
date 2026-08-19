@@ -1,0 +1,612 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Roodelfom - Backend API</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+ 
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', sans-serif;
+            line-height: 1.6;
+            color: #1a1a1a;
+            background: #ffffff;
+        }
+ 
+        /* Navigation */
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.5rem 5%;
+            background: #ffffff;
+            border-bottom: 1px solid #eee;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+ 
+        .logo {
+            font-size: 24px;
+            font-weight: 700;
+            color: #0066ff;
+            letter-spacing: -1px;
+        }
+ 
+        nav a {
+            color: #1a1a1a;
+            text-decoration: none;
+            margin: 0 1.5rem;
+            font-size: 14px;
+            transition: color 0.3s;
+        }
+ 
+        nav a:hover {
+            color: #0066ff;
+        }
+ 
+        .nav-cta {
+            background: #0066ff;
+            color: white !important;
+            padding: 0.75rem 1.5rem;
+            border-radius: 6px;
+            font-weight: 600;
+            transition: background 0.3s;
+        }
+ 
+        .nav-cta:hover {
+            background: #0052cc;
+        }
+ 
+        /* Hero Section */
+        .hero {
+            padding: 6rem 5%;
+            text-align: center;
+            background: linear-gradient(135deg, #0066ff 0%, #0052cc 100%);
+            color: white;
+        }
+ 
+        .hero h1 {
+            font-size: 56px;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            line-height: 1.2;
+        }
+ 
+        .hero .subtitle {
+            font-size: 24px;
+            margin-bottom: 2rem;
+            opacity: 0.95;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+ 
+        .hero .comparison {
+            display: flex;
+            justify-content: center;
+            gap: 3rem;
+            margin: 2rem 0;
+            font-size: 18px;
+        }
+ 
+        .comparison-item {
+            text-align: center;
+        }
+ 
+        .comparison-item .label {
+            font-size: 14px;
+            opacity: 0.8;
+            margin-bottom: 0.5rem;
+        }
+ 
+        .comparison-item .price {
+            font-size: 32px;
+            font-weight: 700;
+        }
+ 
+        .hero-cta {
+            background: white;
+            color: #0066ff;
+            padding: 1rem 2rem;
+            border-radius: 6px;
+            font-weight: 600;
+            font-size: 16px;
+            cursor: pointer;
+            border: none;
+            display: inline-block;
+            transition: transform 0.3s;
+            margin-top: 1rem;
+        }
+ 
+        .hero-cta:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+        }
+ 
+        /* Features Section */
+        .features {
+            padding: 6rem 5%;
+            background: #f8f9fa;
+        }
+ 
+        .section-title {
+            font-size: 42px;
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+ 
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+ 
+        .feature-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 8px;
+            border-left: 4px solid #0066ff;
+        }
+ 
+        .feature-card h3 {
+            font-size: 18px;
+            margin-bottom: 0.5rem;
+            color: #1a1a1a;
+        }
+ 
+        .feature-card p {
+            color: #666;
+            font-size: 14px;
+        }
+ 
+        /* What You Get */
+        .what-you-get {
+            padding: 6rem 5%;
+            background: white;
+        }
+ 
+        .what-you-get-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            max-width: 1200px;
+            margin: 0 auto;
+            align-items: center;
+        }
+ 
+        .what-you-get-content ul {
+            list-style: none;
+            font-size: 16px;
+            line-height: 2;
+        }
+ 
+        .what-you-get-content li {
+            padding-left: 2rem;
+            position: relative;
+            color: #1a1a1a;
+        }
+ 
+        .what-you-get-content li:before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: #0066ff;
+            font-weight: 700;
+            font-size: 20px;
+        }
+ 
+        .code-block {
+            background: #1a1a1a;
+            color: #00ff88;
+            padding: 2rem;
+            border-radius: 8px;
+            font-family: 'Monaco', 'Courier New', monospace;
+            font-size: 14px;
+            overflow-x: auto;
+            line-height: 1.8;
+        }
+ 
+        /* Tech Stack */
+        .tech-stack {
+            padding: 6rem 5%;
+            background: #f8f9fa;
+        }
+ 
+        .tech-stack-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 2rem;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+ 
+        .tech-item {
+            text-align: center;
+            padding: 1.5rem;
+            background: white;
+            border-radius: 8px;
+        }
+ 
+        .tech-item-name {
+            font-weight: 600;
+            color: #1a1a1a;
+            margin-top: 0.5rem;
+        }
+ 
+        /* Pricing */
+        .pricing {
+            padding: 6rem 5%;
+            background: white;
+        }
+ 
+        .pricing-card {
+            max-width: 600px;
+            margin: 0 auto;
+            background: linear-gradient(135deg, #0066ff 0%, #0052cc 100%);
+            color: white;
+            padding: 3rem;
+            border-radius: 12px;
+            text-align: center;
+        }
+ 
+        .pricing-card h2 {
+            font-size: 48px;
+            margin-bottom: 0.5rem;
+        }
+ 
+        .pricing-card .period {
+            font-size: 18px;
+            opacity: 0.9;
+            margin-bottom: 2rem;
+        }
+ 
+        .pricing-features {
+            text-align: left;
+            margin: 2rem 0;
+            list-style: none;
+        }
+ 
+        .pricing-features li {
+            padding: 0.75rem 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+        }
+ 
+        .pricing-features li:before {
+            content: "✓ ";
+            margin-right: 0.5rem;
+        }
+ 
+        .pricing-cta {
+            background: white;
+            color: #0066ff;
+            padding: 1rem 2rem;
+            border-radius: 6px;
+            font-weight: 600;
+            font-size: 16px;
+            cursor: pointer;
+            border: none;
+            width: 100%;
+            margin-top: 2rem;
+            transition: transform 0.3s;
+        }
+ 
+        .pricing-cta:hover {
+            transform: translateY(-2px);
+        }
+ 
+        /* Live Demo */
+        .live-demo {
+            padding: 6rem 5%;
+            background: #1a1a1a;
+            color: white;
+            text-align: center;
+        }
+ 
+        .live-demo h2 {
+            font-size: 42px;
+            margin-bottom: 2rem;
+        }
+ 
+        .demo-box {
+            background: #2a2a2a;
+            padding: 2rem;
+            border-radius: 8px;
+            max-width: 600px;
+            margin: 0 auto;
+            font-family: 'Monaco', 'Courier New', monospace;
+            font-size: 14px;
+            text-align: left;
+        }
+ 
+        .demo-response {
+            color: #00ff88;
+            margin-top: 1rem;
+        }
+ 
+        /* CTA Section */
+        .final-cta {
+            padding: 4rem 5%;
+            background: linear-gradient(135deg, #0066ff 0%, #0052cc 100%);
+            color: white;
+            text-align: center;
+        }
+ 
+        .final-cta h2 {
+            font-size: 42px;
+            margin-bottom: 1rem;
+        }
+ 
+        .final-cta p {
+            font-size: 18px;
+            margin-bottom: 2rem;
+            opacity: 0.95;
+        }
+ 
+        .final-cta-button {
+            background: white;
+            color: #0066ff;
+            padding: 1rem 2.5rem;
+            border-radius: 6px;
+            font-weight: 600;
+            font-size: 18px;
+            cursor: pointer;
+            border: none;
+            transition: transform 0.3s;
+        }
+ 
+        .final-cta-button:hover {
+            transform: translateY(-2px);
+        }
+ 
+        /* Footer */
+        footer {
+            background: #1a1a1a;
+            color: #999;
+            padding: 2rem 5%;
+            text-align: center;
+            font-size: 14px;
+        }
+ 
+        /* Responsive */
+        @media (max-width: 768px) {
+            nav {
+                flex-direction: column;
+                gap: 1rem;
+            }
+ 
+            nav a {
+                margin: 0 1rem;
+            }
+ 
+            .hero h1 {
+                font-size: 36px;
+            }
+ 
+            .hero .subtitle {
+                font-size: 18px;
+            }
+ 
+            .hero .comparison {
+                flex-direction: column;
+                gap: 1rem;
+            }
+ 
+            .what-you-get-content {
+                grid-template-columns: 1fr;
+            }
+ 
+            .section-title {
+                font-size: 32px;
+            }
+ 
+            .pricing-card {
+                padding: 2rem;
+            }
+ 
+            .pricing-card h2 {
+                font-size: 36px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav>
+        <div class="logo">Roodelfom</div>
+        <div style="display: flex; align-items: center; gap: 1rem;">
+            <a href="#features">Features</a>
+            <a href="#pricing">Pricing</a>
+            <a href="#tech">Tech</a>
+            <button class="nav-cta" onclick="scrollToPricing()">Get Started</button>
+        </div>
+    </nav>
+ 
+    <!-- Hero Section -->
+    <section class="hero">
+        <h1>Production-Ready Backend.<br>Full Control.</h1>
+        <p class="subtitle">Production-ready backend API. Deploy in minutes. Pay flat rate. Scale infinitely.</p>
+        <div class="comparison">
+            <div class="comparison-item">
+                <div class="label">Roodelfom</div>
+                <div class="price">$29/mo</div>
+            </div>
+        </div>
+        <button class="hero-cta" onclick="scrollToPricing()">Get Started →</button>
+    </section>
+ 
+    <!-- Features Section -->
+    <section class="features" id="features">
+        <h2 class="section-title">Everything You Need</h2>
+        <div class="features-grid">
+            <div class="feature-card">
+                <h3>🔐 Authentication</h3>
+                <p>JWT tokens, password hashing, API keys. Secure by default.</p>
+            </div>
+            <div class="feature-card">
+                <h3>⚡ Real-time</h3>
+                <p>WebSockets built-in. Live updates, instant notifications.</p>
+            </div>
+            <div class="feature-card">
+                <h3>🎮 Leaderboards</h3>
+                <p>Multi-game support. Rankings, scores, analytics.</p>
+            </div>
+            <div class="feature-card">
+                <h3>💳 Payments</h3>
+                <p>Stripe-ready. Transaction tracking. Payment history.</p>
+            </div>
+            <div class="feature-card">
+                <h3>📁 File Storage</h3>
+                <p>Upload, download, manage files. Permissions included.</p>
+            </div>
+            <div class="feature-card">
+                <h3>💬 Messaging</h3>
+                <p>Direct messages, group chat, real-time delivery.</p>
+            </div>
+            <div class="feature-card">
+                <h3>📊 Analytics</h3>
+                <p>Performance metrics. Error tracking. User insights.</p>
+            </div>
+            <div class="feature-card">
+                <h3>🛡️ Admin Control</h3>
+                <p>Dashboard API. User management. Full visibility.</p>
+            </div>
+        </div>
+    </section>
+ 
+    <!-- What You Get -->
+    <section class="what-you-get">
+        <h2 class="section-title">What You Get</h2>
+        <div class="what-you-get-content">
+            <div>
+                <h3 style="font-size: 28px; margin-bottom: 1.5rem;">Production-Ready Backend</h3>
+                <ul>
+                    <li>Live API (roodelfom-production.up.railway.app)</li>
+                    <li>PostgreSQL database included</li>
+                    <li>Deploy on Railway (your control)</li>
+                    <li>Full source code access</li>
+                    <li>Complete documentation</li>
+                    <li>API reference & examples</li>
+                    <li>24/7 technical support</li>
+                    <li>Automatic updates & security patches</li>
+                </ul>
+            </div>
+            <div>
+                <h3 style="font-size: 18px; margin-bottom: 1rem; color: #666;">API Call Example</h3>
+                <div class="code-block">
+<pre>// Get your API key
+const apiKey = "sk_your_key_here"
+ 
+// Make a request
+fetch('https://api.roodelfom.com/api/leaderboard/top/slink', {
+  headers: {
+    'x-api-key': apiKey,
+    'Authorization': 'Bearer token'
+  }
+})
+.then(r => r.json())
+.then(data => console.log(data))
+ 
+// Response
+{
+  "leaderboard": [
+    {
+      "rank": 1,
+      "username": "player123",
+      "score": 5000
+    }
+  ]
+}</pre>
+                </div>
+            </div>
+        </div>
+    </section>
+ 
+    <!-- Tech Stack -->
+    <section class="tech-stack" id="tech">
+        <h2 class="section-title">Built With Modern Tech</h2>
+        <div class="tech-stack-grid">
+            <div class="tech-item">
+                <strong>Node.js</strong>
+                <div class="tech-item-name">Runtime</div>
+            </div>
+            <div class="tech-item">
+                <strong>Express.js</strong>
+                <div class="tech-item-name">Framework</div>
+            </div>
+            <div class="tech-item">
+                <strong>PostgreSQL</strong>
+                <div class="tech-item-name">Database</div>
+            </div>
+            <div class="tech-item">
+                <strong>Socket.io</strong>
+                <div class="tech-item-name">Real-time</div>
+            </div>
+            <div class="tech-item">
+                <strong>JWT</strong>
+                <div class="tech-item-name">Authentication</div>
+            </div>
+            <div class="tech-item">
+                <strong>Railway</strong>
+                <div class="tech-item-name">Hosting</div>
+            </div>
+        </div>
+    </section>
+ 
+    <!-- Pricing -->
+    <section class="pricing" id="pricing">
+        <h2 class="section-title">Simple, Transparent Pricing</h2>
+        <div class="pricing-card">
+            <h2>$29<span style="font-size: 24px;">/mo</span></h2>
+            <div class="period">One price. Any scale.</div>
+            <ul class="pricing-features">
+                <li>Unlimited API calls</li>
+                <li>Unlimited users</li>
+                <li>Full source code</li>
+                <li>PostgreSQL database</li>
+                <li>Real-time WebSockets</li>
+                <li>Email support</li>
+                <li>All 8 features</li>
+                <li>Deploy on your infrastructure</li>
+            </ul>
+            <button class="pricing-cta" onclick="alert('Sign-up coming soon! Be the first to know.')">Get Started Now</button>
+        </div>
+    </section>
+ 
+    <!-- Live Demo -->
+    <section class="live-demo">
+        <h2>See It Working</h2>
+        <div class="demo-box">
+            <div>$ curl -H "x-api-key: sk_..." https://api.roodelfom.com/api/health</div>
+            <div class="demo-response">{"status":"Server is running"}</div>
+        </div>
+        <p style="margin-top: 2rem; opacity: 0.8;">Live API available now. Start building in minutes.</p>
+    </section>
+ 
+    <!-- Final CTA -->
+    <section class="final-cta">
+        <h2>Ready to Build With Roodelfom?</h2>
+        <p>Join developers building the next generation of apps with Roodelfom.</p>
+        <button class="final-cta-button" onclick="scrollToPricing()">Get Started →</button>
+    </section>
+ 
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2026 Roodelfom. Built by developers, for developers. | Email: contact@roodelfom.com</p>
+    </footer>
+ 
+    <script>
+        function scrollToPricing() {
+            document.getElementById('pricing').scrollIntoView({ behavior: 'smooth' });
+        }
+    </script>
+</body>
+</html>
