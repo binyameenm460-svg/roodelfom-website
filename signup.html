@@ -1,0 +1,580 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up - Roodelfom Backend API</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+ 
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+            background: linear-gradient(135deg, #0066ff 0%, #0052cc 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+ 
+        .container {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            max-width: 500px;
+            width: 100%;
+            padding: 3rem;
+        }
+ 
+        .logo {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+ 
+        .logo h1 {
+            font-size: 32px;
+            color: #0066ff;
+            margin-bottom: 0.5rem;
+        }
+ 
+        .logo p {
+            color: #666;
+            font-size: 14px;
+        }
+ 
+        h2 {
+            font-size: 24px;
+            margin-bottom: 1rem;
+            color: #1a1a1a;
+        }
+ 
+        .subtitle {
+            color: #666;
+            font-size: 14px;
+            margin-bottom: 2rem;
+        }
+ 
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+ 
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: #1a1a1a;
+            font-weight: 500;
+            font-size: 14px;
+        }
+ 
+        input[type="email"],
+        input[type="password"],
+        input[type="text"] {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-size: 14px;
+            transition: border-color 0.3s;
+        }
+ 
+        input[type="email"]:focus,
+        input[type="password"]:focus,
+        input[type="text"]:focus {
+            outline: none;
+            border-color: #0066ff;
+            box-shadow: 0 0 0 3px rgba(0, 102, 255, 0.1);
+        }
+ 
+        .pricing-box {
+            background: #f8f9fa;
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            border: 2px solid #0066ff;
+        }
+ 
+        .pricing-box h3 {
+            font-size: 18px;
+            margin-bottom: 0.5rem;
+            color: #1a1a1a;
+        }
+ 
+        .price {
+            font-size: 32px;
+            font-weight: 700;
+            color: #0066ff;
+            margin-bottom: 0.5rem;
+        }
+ 
+        .price-period {
+            color: #666;
+            font-size: 14px;
+        }
+ 
+        .features-list {
+            list-style: none;
+            margin-top: 1rem;
+            font-size: 13px;
+            color: #666;
+        }
+ 
+        .features-list li {
+            padding: 0.25rem 0;
+        }
+ 
+        .features-list li:before {
+            content: "✓ ";
+            color: #0066ff;
+            font-weight: 700;
+            margin-right: 0.5rem;
+        }
+ 
+        .stripe-section {
+            margin-bottom: 1.5rem;
+        }
+ 
+        .stripe-section h3 {
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 0.75rem;
+            color: #1a1a1a;
+        }
+ 
+        #card-element {
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            padding: 0.75rem;
+            background: white;
+        }
+ 
+        .error {
+            color: #dc3545;
+            font-size: 12px;
+            margin-top: 0.5rem;
+            display: none;
+        }
+ 
+        .terms {
+            font-size: 12px;
+            color: #666;
+            margin-bottom: 1.5rem;
+            line-height: 1.6;
+        }
+ 
+        .terms a {
+            color: #0066ff;
+            text-decoration: none;
+        }
+ 
+        .submit-btn {
+            width: 100%;
+            padding: 0.75rem;
+            background: linear-gradient(135deg, #0066ff 0%, #0052cc 100%);
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.3s;
+        }
+ 
+        .submit-btn:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(0, 102, 255, 0.3);
+        }
+ 
+        .submit-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+ 
+        .loading {
+            display: none;
+            text-align: center;
+            color: #0066ff;
+        }
+ 
+        .spinner {
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid #0066ff;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 10px;
+        }
+ 
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+ 
+        .success-message {
+            display: none;
+            background: #d4edda;
+            color: #155724;
+            padding: 1rem;
+            border-radius: 6px;
+            margin-bottom: 1rem;
+        }
+ 
+        .api-key-section {
+            display: none;
+            background: #f8f9fa;
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin-top: 2rem;
+        }
+ 
+        .api-key-section h3 {
+            color: #1a1a1a;
+            margin-bottom: 1rem;
+        }
+ 
+        .api-key-box {
+            background: #1a1a1a;
+            color: #00ff88;
+            padding: 1rem;
+            border-radius: 6px;
+            font-family: 'Monaco', monospace;
+            font-size: 12px;
+            word-break: break-all;
+            margin-bottom: 1rem;
+        }
+ 
+        .copy-btn {
+            background: #0066ff;
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 12px;
+            font-weight: 600;
+        }
+ 
+        .copy-btn:hover {
+            background: #0052cc;
+        }
+ 
+        .dashboard-link {
+            display: inline-block;
+            margin-top: 1rem;
+            padding: 0.75rem 1.5rem;
+            background: #0066ff;
+            color: white;
+            text-decoration: none;
+            border-radius: 6px;
+            font-weight: 600;
+        }
+ 
+        .dashboard-link:hover {
+            background: #0052cc;
+        }
+ 
+        @media (max-width: 600px) {
+            .container {
+                padding: 1.5rem;
+            }
+ 
+            .logo h1 {
+                font-size: 24px;
+            }
+ 
+            h2 {
+                font-size: 20px;
+            }
+ 
+            .price {
+                font-size: 24px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="logo">
+            <h1>Roodelfom</h1>
+            <p>Backend API for Developers</p>
+        </div>
+ 
+        <h2>Get Started in Minutes</h2>
+        <p class="subtitle">Create your account and start building immediately</p>
+ 
+        <div class="success-message" id="successMessage">
+            🎉 Account created! Your API key is ready below.
+        </div>
+ 
+        <form id="signupForm">
+            <!-- Email -->
+            <div class="form-group">
+                <label for="email">Email Address</label>
+                <input type="email" id="email" name="email" placeholder="you@example.com" required>
+                <div class="error" id="emailError"></div>
+            </div>
+ 
+            <!-- Password -->
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" id="password" name="password" placeholder="Min 8 characters" required>
+                <div class="error" id="passwordError"></div>
+            </div>
+ 
+            <!-- Pricing -->
+            <div class="pricing-box">
+                <h3>Pro Plan</h3>
+                <div class="price">$29<span style="font-size: 18px;">/month</span></div>
+                <div class="price-period">Unlimited API calls • All features included</div>
+                <ul class="features-list">
+                    <li>Unlimited API requests</li>
+                    <li>Real-time WebSockets</li>
+                    <li>User authentication</li>
+                    <li>Leaderboards & analytics</li>
+                    <li>Payment processing</li>
+                    <li>File storage</li>
+                    <li>24/7 support</li>
+                </ul>
+            </div>
+ 
+            <!-- Card Details -->
+            <div class="stripe-section">
+                <h3>Payment Method</h3>
+                <div id="card-element"></div>
+                <div class="error" id="cardError"></div>
+            </div>
+ 
+            <!-- Terms -->
+            <div class="terms">
+                By signing up, you agree to our <a href="#" target="_blank">Terms of Service</a> and 
+                <a href="#" target="_blank">Privacy Policy</a>. Your subscription will renew automatically 
+                each month at $29 USD.
+            </div>
+ 
+            <!-- Submit -->
+            <button type="submit" class="submit-btn" id="submitBtn">Create Account & Subscribe</button>
+ 
+            <div class="loading" id="loading">
+                <div class="spinner"></div>
+                <p>Processing your request...</p>
+            </div>
+        </form>
+ 
+        <!-- API Key Section (shown after success) -->
+        <div class="api-key-section" id="apiKeySection">
+            <h3>🔑 Your API Key</h3>
+            <p style="color: #666; margin-bottom: 1rem; font-size: 14px;">
+                Keep this secret and use it in your applications
+            </p>
+            <div class="api-key-box" id="apiKeyDisplay"></div>
+            <button class="copy-btn" type="button" onclick="copyApiKey()">Copy API Key</button>
+            <a href="https://docs.roodelfom.com" class="dashboard-link" target="_blank">
+                View Documentation →
+            </a>
+        </div>
+ 
+        <!-- Loading during Stripe setup -->
+        <div class="loading" id="loadingStripe">
+            <div class="spinner"></div>
+            <p>Setting up secure payment...</p>
+        </div>
+    </div>
+ 
+    <!-- Load Stripe FIRST -->
+    <script src="https://js.stripe.com/v3/"></script>
+ 
+    <script>
+        const ROODELFOM_API = 'https://roodelfom-production.up.railway.app';
+        const STRIPE_PUBLISHABLE_KEY = 'pk_test_51U6Wkg4DiUgBOMBhvMMb39oRRxGbUsWLvPL9RioLzveYr3ViO6aJga0bGSkJWVpoQa40YDF1PY3CTQlK6YN3DjYs009yq8bg66';
+ 
+        let stripe;
+        let cardElement;
+ 
+        // Wait for Stripe to load
+        function waitForStripe() {
+            return new Promise((resolve) => {
+                if (typeof Stripe !== 'undefined') {
+                    resolve();
+                } else {
+                    let attempts = 0;
+                    const checkInterval = setInterval(() => {
+                        attempts++;
+                        if (typeof Stripe !== 'undefined') {
+                            clearInterval(checkInterval);
+                            resolve();
+                        }
+                        if (attempts > 30) {
+                            clearInterval(checkInterval);
+                            showError('cardError', 'Failed to load Stripe. Please refresh the page.');
+                        }
+                    }, 100);
+                }
+            });
+        }
+ 
+        // Initialize Stripe
+        async function initStripe() {
+            try {
+                await waitForStripe();
+ 
+                document.getElementById('loadingStripe').style.display = 'block';
+ 
+                stripe = Stripe(STRIPE_PUBLISHABLE_KEY);
+                const elements = stripe.elements();
+                cardElement = elements.create('card', {
+                    style: {
+                        base: {
+                            fontSize: '14px',
+                            color: '#1a1a1a',
+                            fontFamily: 'system-ui, sans-serif'
+                        }
+                    }
+                });
+ 
+                cardElement.mount('#card-element');
+ 
+                // Handle card errors
+                cardElement.on('change', (event) => {
+                    const displayError = document.getElementById('cardError');
+                    if (event.error) {
+                        displayError.textContent = event.error.message;
+                        displayError.style.display = 'block';
+                    } else {
+                        displayError.textContent = '';
+                        displayError.style.display = 'none';
+                    }
+                });
+ 
+                document.getElementById('loadingStripe').style.display = 'none';
+ 
+            } catch (error) {
+                console.error('Stripe initialization error:', error);
+                showError('cardError', 'Payment system error. Please refresh and try again.');
+            }
+        }
+ 
+        // Handle form submission
+        document.getElementById('signupForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+ 
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+ 
+            // Validation
+            if (!email || !password) {
+                showError('emailError', 'Please fill in all fields');
+                return;
+            }
+ 
+            if (password.length < 8) {
+                showError('passwordError', 'Password must be at least 8 characters');
+                return;
+            }
+ 
+            // Show loading
+            document.getElementById('loading').style.display = 'block';
+            document.getElementById('submitBtn').disabled = true;
+ 
+            try {
+                // Step 1: Create Stripe payment method
+                const { paymentMethod, error: pmError } = await stripe.createPaymentMethod({
+                    type: 'card',
+                    card: cardElement,
+                    billing_details: {
+                        email: email
+                    }
+                });
+ 
+                if (pmError) {
+                    throw new Error(pmError.message);
+                }
+ 
+                // Step 2: Sign up user on backend
+                const signupRes = await fetch(`${ROODELFOM_API}/api/auth/signup`, {
+                    method: 'POST',
+                    headers: {
+                        'x-api-key': 'sk_roodelfom_abc123xyz789_super_secret_key_only_you_know',
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        email: email,
+                        password: password,
+                        username: email.split('@')[0]
+                    })
+                });
+ 
+                if (!signupRes.ok) {
+                    const error = await signupRes.json();
+                    throw new Error(error.error || 'Signup failed');
+                }
+ 
+                const userData = await signupRes.json();
+                const userId = userData.user_id;
+                const apiKey = userData.api_key || generateApiKey();
+ 
+                // Step 3: Process payment
+                const paymentRes = await fetch(`${ROODELFOM_API}/api/payments/create`, {
+                    method: 'POST',
+                    headers: {
+                        'x-api-key': 'sk_roodelfom_abc123xyz789_super_secret_key_only_you_know',
+                        'Authorization': `Bearer ${userData.token}`,
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        amount: 29.00,
+                        currency: 'USD',
+                        stripe_payment_method_id: paymentMethod.id,
+                        description: 'Roodelfom Pro Plan - Monthly Subscription',
+                        user_id: userId
+                    })
+                });
+ 
+                if (!paymentRes.ok) {
+                    throw new Error('Payment processing failed');
+                }
+ 
+                // Success!
+                showSuccess(apiKey);
+ 
+            } catch (error) {
+                console.error('Error:', error);
+                showError('cardError', error.message || 'Something went wrong. Please try again.');
+                document.getElementById('submitBtn').disabled = false;
+            } finally {
+                document.getElementById('loading').style.display = 'none';
+            }
+        });
+ 
+        function showError(elementId, message) {
+            const errorEl = document.getElementById(elementId);
+            errorEl.textContent = message;
+            errorEl.style.display = 'block';
+        }
+ 
+        function showSuccess(apiKey) {
+            document.getElementById('signupForm').style.display = 'none';
+            document.getElementById('successMessage').style.display = 'block';
+            document.getElementById('apiKeySection').style.display = 'block';
+            document.getElementById('apiKeyDisplay').textContent = apiKey;
+        }
+ 
+        function copyApiKey() {
+            const apiKey = document.getElementById('apiKeyDisplay').textContent;
+            navigator.clipboard.writeText(apiKey).then(() => {
+                alert('API key copied to clipboard!');
+            });
+        }
+ 
+        function generateApiKey() {
+            return 'sk_' + Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
+        }
+ 
+        // Initialize on page load
+        window.addEventListener('load', initStripe);
+    </script>
+</body>
+</html>
