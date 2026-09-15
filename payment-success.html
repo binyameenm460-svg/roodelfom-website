@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment Successful - Roodelfom</title>
+    <link rel="icon" type="image/png" href="favicon.png">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+            background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 1rem;
+        }
+
+        .container {
+            background: white;
+            padding: 3rem;
+            border-radius: 12px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+            max-width: 600px;
+            width: 100%;
+            text-align: center;
+        }
+
+        .success-icon {
+            width: 80px;
+            height: 80px;
+            background: #28a745;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1.5rem;
+            font-size: 40px;
+        }
+
+        h1 {
+            color: #28a745;
+            margin-bottom: 0.5rem;
+            font-size: 32px;
+        }
+
+        .subtitle {
+            color: #666;
+            margin-bottom: 2rem;
+            font-size: 16px;
+        }
+
+        .api-key-section {
+            background: #f8f9fa;
+            padding: 2rem;
+            border-radius: 8px;
+            margin: 2rem 0;
+            border: 2px solid #28a745;
+        }
+
+        .api-key-label {
+            color: #666;
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 0.5rem;
+        }
+
+        .api-key-value {
+            background: white;
+            padding: 1rem;
+            border-radius: 6px;
+            font-family: 'Monaco', 'Courier New', monospace;
+            font-size: 13px;
+            word-break: break-all;
+            color: #0066ff;
+            margin-bottom: 1rem;
+            border: 1px solid #ddd;
+        }
+
+        .copy-button {
+            background: #0066ff;
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 14px;
+            transition: background 0.3s;
+        }
+
+        .copy-button:hover {
+            background: #0052cc;
+        }
+
+        .copy-button.copied {
+            background: #28a745;
+        }
+
+        .next-steps {
+            text-align: left;
+            background: #f0f7ff;
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin: 2rem 0;
+            border-left: 4px solid #0066ff;
+        }
+
+        .next-steps h3 {
+            color: #0066ff;
+            margin-bottom: 1rem;
+        }
+
+        .next-steps ol {
+            margin-left: 2rem;
+            color: #333;
+            line-height: 1.8;
+        }
+
+        .next-steps li {
+            margin-bottom: 0.75rem;
+        }
+
+        .code-example {
+            background: #1a1a1a;
+            color: #00ff88;
+            padding: 1rem;
+            border-radius: 6px;
+            font-family: 'Monaco', 'Courier New', monospace;
+            font-size: 12px;
+            text-align: left;
+            overflow-x: auto;
+            margin: 1rem 0;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 1rem;
+            margin: 2rem 0;
+            flex-direction: column;
+        }
+
+        .action-buttons a {
+            padding: 1rem;
+            border-radius: 6px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: background 0.3s;
+            display: block;
+        }
+
+        .btn-primary {
+            background: #0066ff;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #0052cc;
+        }
+
+        .btn-secondary {
+            background: #f0f0f0;
+            color: #0066ff;
+            border: 2px solid #0066ff;
+        }
+
+        .btn-secondary:hover {
+            background: #e8e8e8;
+        }
+
+        .warning-box {
+            background: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 1rem;
+            border-radius: 6px;
+            margin: 1rem 0;
+            color: #856404;
+            font-size: 13px;
+        }
+
+        .footer-text {
+            color: #999;
+            font-size: 12px;
+            margin-top: 2rem;
+            text-align: center;
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                padding: 1.5rem;
+            }
+
+            h1 {
+                font-size: 24px;
+            }
+
+            .action-buttons {
+                flex-direction: column;
+            }
+
+            .next-steps {
+                text-align: left;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="success-icon">✓</div>
+        
+        <h1>Welcome to Roodelfom!</h1>
+        <p class="subtitle">Your subscription is active and your API key is ready to use.</p>
+
+        <div class="api-key-section">
+            <div class="api-key-label">Your API Key</div>
+            <div class="api-key-value" id="apiKey">
+                sk_user_loading...
+            </div>
+            <button class="copy-button" onclick="copyToClipboard()">
+                Copy API Key
+            </button>
+        </div>
+
+        <div class="warning-box">
+            <strong>🔒 Keep this key secret!</strong> Never share it publicly or commit to GitHub. Anyone with this key can access your API.
+        </div>
+
+        <div class="next-steps">
+            <h3>Next Steps</h3>
+            <ol>
+                <li><strong>Copy your API key</strong> - Click the button above</li>
+                <li><strong>Read the documentation</strong> - Learn how to use all features</li>
+                <li><strong>Add to your project</strong> - Use the example code below</li>
+                <li><strong>Start building</strong> - Access leaderboards, users, and more</li>
+            </ol>
+
+            <div class="code-example">
+<pre>// Example: Get leaderboard with your API key
+const apiKey = "sk_user_your_api_key_here"
+
+fetch('https://roodelfom-production.up.railway.app/api/leaderboard/top/slink', {
+  headers: {
+    'x-api-key': apiKey
+  }
+})
+.then(r => r.json())
+.then(data => console.log(data))</pre>
+            </div>
+        </div>
+
+        <div class="action-buttons">
+            <a href="https://docs.roodelfom.com" class="btn-primary">📚 Read Documentation</a>
+            <a href="https://github.com/binyameenm460-svg/roodelfom" class="btn-secondary">💻 View Source Code</a>
+        </div>
+
+        <div class="warning-box">
+            <strong>Billing Info:</strong> Your subscription renews automatically each month at $29 USD. You can cancel anytime with no penalties. Check your email for a receipt.
+        </div>
+
+        <div class="footer-text">
+            <p>Questions? Email us at <a href="mailto:support@roodelfom.com">support@roodelfom.com</a></p>
+            <p>© 2026 Roodelfom. All rights reserved.</p>
+        </div>
+    </div>
+
+    <script>
+        // Simulate fetching API key (in real implementation, this comes from backend)
+        window.addEventListener('load', function() {
+            // In production, fetch from URL parameter or backend
+            const apiKey = localStorage.getItem('roodelfom_api_key') || 'sk_user_abc123xyz789def456ghi789jkl012';
+            document.getElementById('apiKey').textContent = apiKey;
+        });
+
+        function copyToClipboard() {
+            const apiKey = document.getElementById('apiKey').textContent;
+            navigator.clipboard.writeText(apiKey).then(() => {
+                const btn = event.target;
+                btn.textContent = '✓ Copied!';
+                btn.classList.add('copied');
+                setTimeout(() => {
+                    btn.textContent = 'Copy API Key';
+                    btn.classList.remove('copied');
+                }, 2000);
+            }).catch(err => {
+                console.error('Copy failed:', err);
+                alert('Failed to copy. Please copy manually: ' + apiKey);
+            });
+        }
+    </script>
+</body>
+</html>
